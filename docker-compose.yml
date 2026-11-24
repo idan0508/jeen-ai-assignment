@@ -1,0 +1,16 @@
+# Local development database with the pgvector extension preinstalled.
+# Credentials below are for local development only; put the matching URL in .env.
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_USER: ${PG_USER:-docindexer}
+      POSTGRES_PASSWORD: ${PG_PASSWORD:-docindexer}
+      POSTGRES_DB: ${PG_DB:-docindexer}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
