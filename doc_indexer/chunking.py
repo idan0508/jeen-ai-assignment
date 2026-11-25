@@ -5,8 +5,8 @@ from collections.abc import Callable
 
 from doc_indexer.errors import ConfigError
 
-DEFAULT_CHUNK_SIZE = 1000
-DEFAULT_OVERLAP = 200
+DEFAULT_CHUNK_SIZE = 500
+DEFAULT_OVERLAP = 100
 
 _SENTENCE_END = re.compile(r"(?<=[.!?])\s+")
 # A period after these does not end a sentence ("Dr. Smith", "e.g. this").

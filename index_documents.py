@@ -41,8 +41,10 @@ def _run(args: argparse.Namespace) -> None:
         result = IndexingService(embedder, repository).index_file(
             args.file, args.strategy, args.chunk_size, args.overlap
         )
+    # The parameters are not stored in the database, so the run's output is their only record.
     print(
-        f"Indexed '{result.filename}' with strategy '{result.strategy}': "
+        f"Indexed '{result.filename}' with strategy '{result.strategy}' "
+        f"(chunk_size={args.chunk_size}, overlap={args.overlap}): "
         f"{result.char_count} characters -> {result.chunk_count} chunks stored."
     )
 
