@@ -47,6 +47,21 @@ def test_missing_file(tmp_path):
         extract_text(tmp_path / "nope.pdf")
 
 
+def test_accepts_str_path():
+    assert "Login issues" in extract_text(str(EXAMPLES / "example.docx"))
+
+
+@pytest.mark.parametrize("bad_path", [None, 123, 4.5])
+def test_non_path_input_is_domain_error(bad_path):
+    with pytest.raises(DocumentError):
+        extract_text(bad_path)
+
+
+def test_empty_string_path_is_not_found():
+    with pytest.raises(DocumentNotFoundError):
+        extract_text("")
+
+
 def test_unsupported_type(tmp_path):
     path = tmp_path / "notes.txt"
     path.write_text("hello")

@@ -23,14 +23,20 @@ _HYPHEN_LINEBREAK = re.compile(r"(?<=[^\W\d_])-\n(?=[^\W\d_])")
 _BLANK_LINES = re.compile(r"\n[ \t]*\n(?:[ \t]*\n)*")
 
 
-def extract_text(path: Path) -> str:
-    """Return cleaned text of a PDF/DOCX file.
+def extract_text(path: str | Path) -> str:
+    """Return cleaned text of a PDF/DOCX file given as a str or Path.
 
     Paragraphs in the result are separated by a blank line ("\\n\\n"); line
     breaks inside a paragraph are collapsed to single spaces.
-    Raises a DocumentError subclass for missing, unsupported, unreadable or
-    text-less files, before any expensive work (embeddings, DB) happens.
+    Raises a DocumentError subclass for invalid, missing, unsupported,
+    unreadable or text-less files, before any expensive work (embeddings, DB)
+    happens.
     """
+    try:
+        path = Path(path)
+    except TypeError as exc:
+        raise DocumentError("Invalid file path: expected a string or a path object.") from exc
+
     if not path.is_file():
         raise DocumentNotFoundError(f"File not found: {path}")
 
